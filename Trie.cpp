@@ -77,3 +77,44 @@ bool Trie::insert(Game* game){
 
     return true;
 }
+
+bool Trie::contains(std:: string title){
+    std::string key = toSearchKey(title);
+
+    TrieNode* current_node = this->root;
+
+    for(char ch : key){
+        int idx = 0;
+
+        if(ch >= 'a' && ch <= 'z'){
+            idx = ch - 'a';
+        }
+        else if(ch >= '0' && ch <= '9'){
+            idx = ch - '0' + 26;
+        }
+        else{
+            continue;
+        }
+        
+        if(current_node->children[idx] == nullptr){
+            return false;
+        }
+
+        current_node = current_node->children[idx];
+    }
+
+    if(current_node->isEndOfTitle == true){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void Trie::sortResults(std::vector<Game*>& games){
+
+}
+
+std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
+
+}
