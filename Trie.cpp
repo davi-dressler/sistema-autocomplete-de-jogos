@@ -53,9 +53,13 @@ bool Trie::insert(Game* game){
     TrieNode* current_node = this->root;
 
     std::string key = toSearchKey(game->title);
+
+    // std::cout << "teste 1" << std::endl;
     
     for(char ch : key){
         int idx = 0;
+        // std::cout << "caractere: " << ch << std::endl;
+        // std::cout << key << std::endl;
 
         if(ch >= 'a' && ch <= 'z'){
             idx = ch - 'a';
@@ -67,15 +71,21 @@ bool Trie::insert(Game* game){
             continue;
         }
         
+
+
         if(current_node->children[idx] == nullptr){
             current_node->children[idx] = new TrieNode();
         }
 
         current_node = current_node->children[idx];
+
+        // std::cout << "teste 2" << std::endl;
     }
 
+    // std::cout << "teste 3" << std::endl;
     current_node->isEndOfTitle = true;
     current_node->game = game;
+    // std::cout << "teste 4" << std::endl;
 
     return true;
 }
@@ -156,9 +166,10 @@ std::vector<Game*> Trie::mergeSort(std::vector<Game*> games){
 }
 
 void Trie::sortResults(std::vector<Game*>& games){    
-
+    games = mergeSort(games);
 }
 
 std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
-
+    std::vector<Game*> vazio;
+    return vazio;
 }

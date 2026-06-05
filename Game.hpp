@@ -14,6 +14,9 @@ public:
         this->description = d;
         this->popularity = p;
     }
+    std::string getTitle();
+    std::string getShortDescription();
+    int getPopularity();
 };
 
 #endif
