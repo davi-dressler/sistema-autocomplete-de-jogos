@@ -26,6 +26,8 @@ class Trie {
 private:
 
     TrieNode* root;
+    std::vector<Game*> merge(std::vector<Game*> game1, std::vector<Game*> game2);
+    std::vector<Game*> mergeSort(std::vector<Game*> games);
 
 public:
 

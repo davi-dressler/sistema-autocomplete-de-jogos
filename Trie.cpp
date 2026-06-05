@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <vector>
 #include "Trie.hpp"
 
 using namespace std;
@@ -111,7 +113,49 @@ bool Trie::contains(std:: string title){
     }
 }
 
-void Trie::sortResults(std::vector<Game*>& games){
+std::vector<Game*> Trie::merge(std::vector<Game*> game1, std::vector<Game*> game2){
+   int n = game1.size();
+   int m = game2.size();
+   int i = 0;
+   int j = 0;
+   std::vector<Game*> merged(m + n);
+   // falta o desempate
+   while(i < n && j < m){
+       if(game1[i]->popularity >= game2[j]->popularity){
+           merged[i + j] = game1[i];
+           i++;
+       } else {
+           merged[i + j] = game2[j];
+           j++;
+       }
+   }
+   while (i < n) {
+       merged[i + j] = game1[i];
+       i++;
+   }
+
+   while (j < m) {
+       merged[i + j] = game2[j];
+       j++;
+   }
+   return merged;
+}
+std::vector<Game*> Trie::mergeSort(std::vector<Game*> games){
+    if(games.size() <= 1){
+        return games;
+    }
+    int size = games.size();
+    int mid = size/2;
+    std::vector<Game*> left(games.begin(), games.begin() + mid);
+    std::vector<Game*> right(games.begin() + mid, games.end());
+    left = mergeSort(left);
+    right = mergeSort(right);
+
+    
+    return merge(left, right);
+}
+
+void Trie::sortResults(std::vector<Game*>& games){    
 
 }
 
