@@ -1,21 +1,21 @@
 #include <iostream>
+#include "Game.hpp"
 #include "Trie.hpp"
 #include "GamesDatabase.hpp"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    // if (argc != 2) {
-    //     cout << "Usage: ./app k prefix" << endl;
-    //     return 1;
-    // }
+    if (argc != 3) {
+        cout << "Usage: ./app k prefix" << endl;
+        return 1;
+    }
 
-    // int numGamesToRead = atoi(argv[1]);
+    int numGamesToRead = atoi(argv[1]);
+    string prefix = argv[2];
 
-    // numGamesToRead = max(numGamesToRead, 0);
-    // numGamesToRead = min(numGamesToRead, numberOfGames);
-
-    // std::cout << "Reading " << numGamesToRead << " games:\n\n";
+    numGamesToRead = max(numGamesToRead, 0);
+    numGamesToRead = min(numGamesToRead, numberOfGames);
 
     Trie trie;
 
@@ -26,8 +26,11 @@ int main(int argc, char* argv[]) {
       gamesVector[i] = &games[i];
     }
 
-    for(Game* i : trie.autocomplete("d", 9)){
-      cout << i->getTitle() << endl;
+    vector<Game*> result = trie.autocomplete(prefix, numGamesToRead);
+    for(Game* game : result){
+      cout << "[" << game->getTitle() << " | ";
+      cout << game->getShortDescription() << " | ";
+      cout << game->getPopularity() << "]" << endl;
     }
     
     return 0;
