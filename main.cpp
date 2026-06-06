@@ -26,6 +26,9 @@ int main(int argc, char* argv[]) {
       gamesVector[i] = &games[i];
     }
 
+    for(Game* i : trie.autocomplete("d", 9)){
+      cout << i->getTitle() << endl;
+    }
     
     return 0;
 }

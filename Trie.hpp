@@ -41,7 +41,7 @@ public:
 
     std::string toSearchKey(std::string text);
     void sortResults(std::vector<Game*>& games);
-
+    void dfs(TrieNode* node, std::vector<Game*>& games);
     // Outros métodos auxiliares, se necessário
 };
 

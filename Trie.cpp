@@ -169,7 +169,38 @@ void Trie::sortResults(std::vector<Game*>& games){
     games = mergeSort(games);
 }
 
+
+void Trie::dfs(TrieNode* node, std::vector<Game*>& games){
+    if(!node->isEndOfTitle){
+        for(int i = 0; i < ALPHABET_SIZE; i++){
+            if(node->children[i] == nullptr){
+                continue;
+            }
+
+            dfs(node->children[i], games);
+        }
+    }else{
+        games.push_back(node->game);
+    }
+}
+
 std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
-    std::vector<Game*> vazio;
-    return vazio;
+    std::vector<Game*> games;
+    if(k <= 0){
+        return games;
+    }
+    TrieNode* dfsStart;
+    TrieNode* current_node = this->root;
+    for(char ch : prefix){
+        int childIdx = ch - 'a';
+        dfsStart = current_node->children[childIdx];
+        current_node = current_node->children[childIdx];
+    }
+    
+    dfs(dfsStart, games);
+    sortResults(games);
+    int outSize = std::min(k, int(games.size()));
+    std::vector result(games.begin(), games.begin() + outSize);
+    
+    return result;
 }
