@@ -27,6 +27,10 @@ int main(int argc, char* argv[]) {
     }
 
     vector<Game*> result = trie.autocomplete(prefix, numGamesToRead);
+
+    if(result.size() == 0){
+      cout << "Nenhum jogo encontrado!" << endl;
+    }
     for(Game* game : result){
       cout << "[" << game->getTitle() << " | ";
       cout << game->getShortDescription() << " | ";

@@ -54,12 +54,8 @@ bool Trie::insert(Game* game){
 
     std::string key = toSearchKey(game->title);
 
-    // std::cout << "teste 1" << std::endl;
-    
     for(char ch : key){
         int idx = 0;
-        // std::cout << "caractere: " << ch << std::endl;
-        // std::cout << key << std::endl;
 
         if(ch >= 'a' && ch <= 'z'){
             idx = ch - 'a';
@@ -171,6 +167,9 @@ void Trie::sortResults(std::vector<Game*>& games){
 
 
 void Trie::dfs(TrieNode* node, std::vector<Game*>& games){
+    if(node == nullptr){
+        return;
+    }
     if(!node->isEndOfTitle){
         for(int i = 0; i < ALPHABET_SIZE; i++){
             if(node->children[i] == nullptr){
@@ -189,10 +188,18 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
     if(k <= 0){
         return games;
     }
-    TrieNode* dfsStart;
+    TrieNode* dfsStart = nullptr;
     TrieNode* current_node = this->root;
     for(char ch : prefix){
-        int childIdx = ch - 'a';
+        int childIdx;
+        if(ch >= 'a' && ch <= 'z'){
+            childIdx = ch - 'a';
+        }
+        else if(ch >= '0' && ch <= '9'){
+            childIdx = ch - '0' + 26;
+        }else {
+            continue;
+        }
         dfsStart = current_node->children[childIdx];
         current_node = current_node->children[childIdx];
     }
