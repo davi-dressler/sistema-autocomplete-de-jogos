@@ -188,9 +188,13 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
     if(k <= 0){
         return games;
     }
+
+    std::string key = toSearchKey(prefix);
+
     TrieNode* dfsStart = nullptr;
     TrieNode* current_node = this->root;
-    for(char ch : prefix){
+
+    for(char ch : key){
         int childIdx;
         if(ch >= 'a' && ch <= 'z'){
             childIdx = ch - 'a';
@@ -200,6 +204,11 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
         }else {
             continue;
         }
+
+        if(current_node->children[childIdx] == nullptr){
+            return games;
+        }
+        
         dfsStart = current_node->children[childIdx];
         current_node = current_node->children[childIdx];
     }
@@ -207,7 +216,7 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
     dfs(dfsStart, games);
     sortResults(games);
     int outSize = std::min(k, int(games.size()));
-    std::vector result(games.begin(), games.begin() + outSize);
+    std::vector<Game*> result(games.begin(), games.begin() + outSize);
     
     return result;
 }
